@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esthetic Studio | Photobooth for weddings and events in Singapore</title>
+<meta name="description" content="Photobooth service in Singapore for weddings, ROM, corporate D&Ds and parties. Every event gets its own custom photo strip, printed on the spot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;700&family=Montserrat:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E6EAE3; --ink:#23261F; --muted:#565E52; --sage:#8FA98A; --gold:#A0824A;
+  --white:#FFFFFF; --line:#C5CDBF; --slot:#2B2F27;
+  --font:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.logo{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:28px;text-decoration:none;letter-spacing:0.03em;line-height:1}
+.logo span{font-family:'Pinyon Script',cursive;font-weight:400;font-size:30px;color:var(--gold);margin-left:8px;letter-spacing:0}
+nav a{text-decoration:none;margin-left:24px;font-size:15px;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--ink);color:var(--white);text-decoration:none;border:0;border-radius:999px;padding:13px 24px;font:500 16px var(--font);cursor:pointer}
+.btn:hover{background:#3A3F33}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn.ghost:hover{background:var(--white)}
+
+.hero{display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:start;padding:40px 0 80px}
+.hero h1{font-size:clamp(2.4rem,5.2vw,4.1rem);line-height:1.05;letter-spacing:-0.03em;font-weight:500;margin:40px 0 24px;max-width:13ch}
+.hero p{font-size:19px;color:var(--muted);max-width:44ch;margin:0 0 32px}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero .facts{display:flex;gap:28px;margin-top:44px;color:var(--muted);font-size:15px;flex-wrap:wrap}
+.hero .facts b{display:block;color:var(--ink);font-size:16px;font-weight:700}
+
+.printer{justify-self:center;width:260px;position:relative}
+.slot{height:34px;background:var(--slot);border-radius:12px;position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+.slot::after{content:"";width:200px;height:4px;background:#11130F;border-radius:2px}
+.feed{width:200px;margin:-6px auto 0;overflow:hidden;position:relative;z-index:1;padding-bottom:20px}
+.feed svg{display:block;width:200px;height:600px;transform:translateY(-100%);animation:print 2.6s cubic-bezier(.3,.7,.3,1) .5s forwards;filter:drop-shadow(0 10px 18px rgba(35,38,31,.18))}
+@keyframes print{to{transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.feed svg{animation:none;transform:none}}
+
+section{padding:88px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.15;letter-spacing:-0.02em;font-weight:500;margin:0 0 16px;max-width:22ch}
+.lead{color:var(--muted);max-width:56ch;margin:0 0 48px}
+
+.strips{display:flex;gap:28px;align-items:flex-end;overflow-x:auto;padding:8px 4px 16px}
+.strips figure{margin:0;flex:0 0 auto}
+.strips svg{display:block;width:150px;height:450px}
+.strips figcaption{margin-top:14px;font-size:15px}
+.strips figcaption b{display:block;font-weight:700}
+.strips figcaption span{color:var(--muted)}
+.strips figure:nth-child(2){transform:rotate(-2deg)}
+.strips figure:nth-child(3){transform:translateY(-18px)}
+.strips figure:nth-child(4){transform:rotate(1.5deg)}
+
+.steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;counter-reset:s}
+.steps li{counter-increment:s;padding-top:20px;border-top:2px solid var(--ink)}
+.steps li::before{content:counter(s);font-weight:700;font-size:15px;color:var(--gold);display:block;margin-bottom:10px}
+.steps h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-0.01em}
+.steps p{margin:0;color:var(--muted);font-size:16px}
+
+.packages{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--white);border-radius:20px;overflow:hidden}
+.pkg{padding:36px 32px}
+.pkg + .pkg{border-left:1px solid var(--line)}
+.pkg.pick{background:var(--ink);color:var(--white)}
+.pkg.pick .note,.pkg.pick li{color:#D5DACF}
+.pkg h3{font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-0.01em}
+.pkg .note{color:var(--muted);font-size:15px;margin:0 0 20px}
+.pkg ul{margin:0 0 28px;padding-left:18px;color:var(--muted);font-size:16px}
+.pkg li{margin-bottom:6px}
+.pkg .rate{font-weight:700;font-size:18px;margin:0 0 20px}
+.pkg.pick .btn{background:var(--white);color:var(--ink)}
+
+.faq{max-width:760px}
+details{border-bottom:1px solid var(--line);padding:20px 0}
+summary{cursor:pointer;font-weight:700;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:400;font-size:24px;line-height:1;color:var(--gold)}
+details[open] summary::after{content:"\2212"}
+details p{color:var(--muted);margin:12px 0 0;max-width:62ch}
+
+.enquire{display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;align-items:start}
+form{background:var(--white);border-radius:20px;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+label{font-size:15px;font-weight:500}
+input,select,textarea{font:16px var(--font);color:var(--ink);background:var(--paper);border:1.5px solid transparent;border-radius:10px;padding:12px 14px}
+input:focus,select:focus,textarea:focus{border-color:var(--ink);outline:none}
+textarea{min-height:96px;resize:vertical}
+.err{color:#A12F2F;font-size:13px;min-height:0}
+.invalid{border-color:#A12F2F}
+form .btn{grid-column:1/-1;justify-self:start}
+.contact-list{list-style:none;padding:0;margin:28px 0 0;color:var(--muted)}
+.contact-list li{margin-bottom:8px}
+
+footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);font-size:15px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media (max-width:860px){
+  nav a:not(.btn){display:none}
+  .hero{grid-template-columns:1fr;padding-bottom:48px}
+  .hero h1{margin-top:16px}
+  .steps{grid-template-columns:1fr 1fr}
+  .packages{grid-template-columns:1fr}
+  .pkg + .pkg{border-left:0;border-top:1px solid var(--line)}
+  .enquire{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}
+}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="bokeh" fill="#F3C77A" opacity="0.55"><circle cx="25" cy="25" r="2.5"/><circle cx="40" cy="38" r="1.8"/><circle cx="60" cy="22" r="2"/><circle cx="112" cy="28" r="2.6"/><circle cx="132" cy="42" r="1.8"/><circle cx="138" cy="20" r="2"/><circle cx="22" cy="60" r="1.5"/><circle cx="140" cy="70" r="1.6"/><circle cx="95" cy="18" r="1.5"/><circle cx="78" cy="35" r="1.2"/></g>
+    <g id="couple"><ellipse cx="12" cy="-34" rx="15" ry="17" fill="#3A2A1F"/><path d="M-4 0 C-4 -28 38 -28 38 0 Z" fill="#D9CBB8"/><circle cx="-12" cy="-46" r="14" fill="#2A1E17"/><path d="M-40 0 C-40 -30 6 -30 6 0 Z" fill="#4E3B2E"/><circle cx="-12" cy="-42" r="12" fill="#B88C6E"/><circle cx="12" cy="-40" r="11" fill="#C99B7C"/></g>
+    <g id="p"><circle cx="0" cy="-27" r="9"/><path d="M-17 0 C-17 -19 17 -19 17 0 Z"/></g>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="logo" href="#top" aria-label="Esthetic Studio home">Esthetic<span>Studio</span></a>
+    <nav>
+      <a href="#strips">Strip designs</a>
+      <a href="#how">How it works</a>
+      <a href="#packages">Packages</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn" href="#enquire" style="margin-left:24px;color:var(--white)">Book a date</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <div>
+        <h1>A photo strip made for your event, printed while it's happening.</h1>
+        <p>We bring the booth, the lights and a strip design built around your names, colours and theme. Guests take home a print in seconds and a digital copy on their phone.</p>
+        <div class="actions">
+          <a class="btn" href="#enquire">Book a date</a>
+          <a class="btn ghost" href="#strips">See strip designs</a>
+        </div>
+        <div class="facts">
+          <div><b>Weddings and ROM</b>Solemnisations to dinners</div>
+          <div><b>Company events</b>D&amp;Ds, lo hei, launches</div>
+          <div><b>All of Singapore</b>We come to your venue</div>
+        </div>
+      </div>
+
+      <div class="printer" aria-label="A wedding photo strip printing out of the booth">
+        <div class="slot"></div>
+        <div class="feed">
+          <svg viewBox="0 0 160 480" role="img" aria-label="Sample wedding strip with three couple photos and the names Jun and Mei">
+            <rect width="160" height="480" fill="#FFFFFF"/>
+            <rect x="14" y="14" width="132" height="112" fill="#1E1A17"/><use href="#bokeh"/><use href="#couple" transform="translate(80 126)"/>
+            <rect x="14" y="134" width="132" height="112" fill="#1E1A17"/><use href="#bokeh" transform="translate(0 120)"/><use href="#couple" transform="translate(80 246) scale(-1.1 1.1)"/>
+            <rect x="14" y="254" width="132" height="112" fill="#1E1A17"/><use href="#bokeh" transform="translate(0 240)"/><use href="#couple" transform="translate(82 366) scale(1.05)"/>
+            <text x="80" y="390" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="2.2" fill="#3A3530">THE WEDDING OF</text>
+            <text x="72" y="422" text-anchor="middle" font-family="Pinyon Script" font-size="28" fill="#2B2622">Jun &amp;</text>
+            <text x="90" y="450" text-anchor="middle" font-family="Pinyon Script" font-size="28" fill="#2B2622">Mei</text>
+            <text x="80" y="470" text-anchor="middle" font-family="Montserrat" font-size="8" letter-spacing="0.8" fill="#5A534C">Singapore, 14.02.2027</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <section id="strips">
+      <h2>Every event gets its own strip</h2>
+      <p class="lead">Tell us the occasion and the look you're going for. We design the strip, send it to you for approval, and make changes until it feels right. Here are a few styles to start from.</p>
+      <div class="strips">
+        <figure>
+          <svg viewBox="0 0 160 480" role="img" aria-label="Minimal white wedding strip">
+            <rect width="160" height="480" fill="#FFFFFF"/>
+            <rect x="14" y="14" width="132" height="112" fill="#1E1A17"/><use href="#bokeh"/><use href="#couple" transform="translate(80 126)"/>
+            <rect x="14" y="134" width="132" height="112" fill="#1E1A17"/><use href="#bokeh" transform="translate(0 120)"/><use href="#couple" transform="translate(80 246) scale(-1.1 1.1)"/>
+            <rect x="14" y="254" width="132" height="112" fill="#1E1A17"/><use href="#bokeh" transform="translate(0 240)"/><use href="#couple" transform="translate(82 366) scale(1.05)"/>
+            <text x="80" y="390" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="2.2" fill="#3A3530">THE WEDDING OF</text>
+            <text x="72" y="422" text-anchor="middle" font-family="Pinyon Script" font-size="28" fill="#2B2622">Jun &amp;</text>
+            <text x="90" y="450" text-anchor="middle" font-family="Pinyon Script" font-size="28" fill="#2B2622">Mei</text>
+            <text x="80" y="470" text-anchor="middle" font-family="Montserrat" font-size="8" fill="#5A534C">Singapore, 14.02.2027</text>
+          </svg>
+          <figcaption><b>Minimal wedding</b><span>Script names, lots of white</span></figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 130 390" role="img" aria-label="Black film-style strip with four photos">
+            <rect width="130" height="390" rx="3" fill="#121212"/>
+            <g fill="#2E2E2E">
+              <rect x="5" y="8" width="6" height="8" rx="1.5"/><rect x="5" y="28" width="6" height="8" rx="1.5"/><rect x="5" y="48" width="6" height="8" rx="1.5"/><rect x="5" y="68" width="6" height="8" rx="1.5"/><rect x="5" y="88" width="6" height="8" rx="1.5"/><rect x="5" y="108" width="6" height="8" rx="1.5"/><rect x="5" y="128" width="6" height="8" rx="1.5"/><rect x="5" y="148" width="6" height="8" rx="1.5"/><rect x="5" y="168" width="6" height="8" rx="1.5"/><rect x="5" y="188" width="6" height="8" rx="1.5"/><rect x="5" y="208" width="6" height="8" rx="1.5"/><rect x="5" y="228" width="6" height="8" rx="1.5"/><rect x="5" y="248" width="6" height="8" rx="1.5"/><rect x="5" y="268" width="6" height="8" rx="1.5"/><rect x="5" y="288" width="6" height="8" rx="1.5"/><rect x="5" y="308" width="6" height="8" rx="1.5"/><rect x="5" y="328" width="6" height="8" rx="1.5"/><rect x="5" y="348" width="6" height="8" rx="1.5"/><rect x="5" y="368" width="6" height="8" rx="1.5"/>
+              <rect x="119" y="8" width="6" height="8" rx="1.5"/><rect x="119" y="28" width="6" height="8" rx="1.5"/><rect x="119" y="48" width="6" height="8" rx="1.5"/><rect x="119" y="68" width="6" height="8" rx="1.5"/><rect x="119" y="88" width="6" height="8" rx="1.5"/><rect x="119" y="108" width="6" height="8" rx="1.5"/><rect x="119" y="128" width="6" height="8" rx="1.5"/><rect x="119" y="148" width="6" height="8" rx="1.5"/><rect x="119" y="168" width="6" height="8" rx="1.5"/><rect x="119" y="188" width="6" height="8" rx="1.5"/><rect x="119" y="208" width="6" height="8" rx="1.5"/><rect x="119" y="228" width="6" height="8" rx="1.5"/><rect x="119" y="248" width="6" height="8" rx="1.5"/><rect x="119" y="268" width="6" height="8" rx="1.5"/><rect x="119" y="288" width="6" height="8" rx="1.5"/><rect x="119" y="308" width="6" height="8" rx="1.5"/><rect x="119" y="328" width="6" height="8" rx="1.5"/><rect x="119" y="348" width="6" height="8" rx="1.5"/><rect x="119" y="368" width="6" height="8" rx="1.5"/>
+            </g>
+            <rect x="18" y="16" width="94" height="70" fill="#D8C3A5"/><use href="#p" transform="translate(52 86)" fill="#8C7358"/><use href="#p" transform="translate(79 86)" fill="#6E5944"/>
+            <rect x="18" y="94" width="94" height="70" fill="#CDB79A"/><use href="#p" transform="translate(65 164) scale(1.15)" fill="#7A6249"/>
+            <rect x="18" y="172" width="94" height="70" fill="#D3BFA1"/><use href="#p" transform="translate(42 242) scale(0.85)" fill="#8C7358"/><use href="#p" transform="translate(88 242) scale(0.85)" fill="#8C7358"/><use href="#p" transform="translate(65 242) scale(0.85)" fill="#6E5944"/>
+            <rect x="18" y="250" width="94" height="70" fill="#C9B293"/><use href="#p" transform="translate(73 320)" fill="#8C7358"/><use href="#p" transform="translate(58 320)" fill="#6E5944"/>
+            <text x="65" y="352" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="17" fill="#F2EDE4">jun &amp; mei</text>
+            <text x="65" y="372" text-anchor="middle" font-family="Montserrat" font-size="9" letter-spacing="2" fill="#A39B8E">14 . 02 . 27</text>
+          </svg>
+          <figcaption><b>Film strip</b><span>Retro, great in black and white</span></figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 130 390" role="img" aria-label="Pastel four-cut strip">
+            <rect width="130" height="390" rx="4" fill="#F6D9D4"/>
+            <rect x="12" y="16" width="106" height="70" rx="6" fill="#FCEDEA"/><use href="#p" transform="translate(52 86)" fill="#D9A8A1"/><use href="#p" transform="translate(79 86)" fill="#C58F88"/>
+            <rect x="12" y="94" width="106" height="70" rx="6" fill="#EDE2F1"/><use href="#p" transform="translate(65 164) scale(1.15)" fill="#B79DBE"/>
+            <rect x="12" y="172" width="106" height="70" rx="6" fill="#E0EFE8"/><use href="#p" transform="translate(42 242) scale(0.85)" fill="#9EC2B3"/><use href="#p" transform="translate(88 242) scale(0.85)" fill="#9EC2B3"/><use href="#p" transform="translate(65 242) scale(0.85)" fill="#82AE9C"/>
+            <rect x="12" y="250" width="106" height="70" rx="6" fill="#FBEBCD"/><use href="#p" transform="translate(73 320)" fill="#E2C08A"/><use href="#p" transform="translate(58 320)" fill="#D2A964"/>
+            <path d="M65 342 C61 338 56 335 60 331 C62 329 65 331 65 333 C65 331 68 329 70 331 C74 335 69 338 65 342 Z" fill="#E08E8E"/>
+            <path d="M22 338 L24 342 L28 344 L24 346 L22 350 L20 346 L16 344 L20 342 Z" fill="#E8B4A0"/>
+            <path d="M108 364 L110 368 L114 370 L110 372 L108 376 L106 372 L102 370 L106 368 Z" fill="#E8B4A0"/>
+            <text x="65" y="362" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="13" fill="#8E4A4A">ashley turns 21</text>
+            <text x="65" y="378" text-anchor="middle" font-family="Manrope" font-size="9" letter-spacing="1" fill="#B07070">08 . 03 . 2027</text>
+          </svg>
+          <figcaption><b>Pastel 4-cut</b><span>Birthdays, schools, pop-ups</span></figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 130 390" role="img" aria-label="Red and gold Chinese New Year strip">
+            <rect width="130" height="390" fill="#B3261E"/>
+            <rect x="5" y="5" width="120" height="380" fill="none" stroke="#F2C14E" stroke-width="0.6"/>
+            <line x1="22" y1="5" x2="22" y2="13" stroke="#F2C14E"/><circle cx="22" cy="21" r="8" fill="#F2C14E"/><line x1="15" y1="21" x2="29" y2="21" stroke="#B3261E" stroke-width="0.8"/>
+            <line x1="108" y1="5" x2="108" y2="13" stroke="#F2C14E"/><circle cx="108" cy="21" r="8" fill="#F2C14E"/><line x1="101" y1="21" x2="115" y2="21" stroke="#B3261E" stroke-width="0.8"/>
+            <rect x="12" y="38" width="106" height="90" fill="#D9A39E"/><use href="#p" transform="translate(52 128)" fill="#8E3A33"/><use href="#p" transform="translate(79 128)" fill="#7A2A24"/>
+            <rect x="12" y="136" width="106" height="90" fill="#E3B3AD"/><use href="#p" transform="translate(65 226) scale(1.2)" fill="#8E3A33"/>
+            <rect x="12" y="234" width="106" height="90" fill="#D9A39E"/><use href="#p" transform="translate(42 324) scale(0.85)" fill="#8E3A33"/><use href="#p" transform="translate(88 324) scale(0.85)" fill="#8E3A33"/><use href="#p" transform="translate(65 324) scale(0.85)" fill="#7A2A24"/>
+            <text x="65" y="352" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="15" fill="#F2C14E">新年快乐</text>
+            <text x="65" y="370" text-anchor="middle" font-family="Manrope" font-size="9" fill="#F2C14E">Acme lo hei 2027</text>
+          </svg>
+          <figcaption><b>Chinese New Year</b><span>Lo hei and company events</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="how">
+      <h2>How a booking works</h2>
+      <p class="lead">We recommend booking three to six weeks ahead. Company events in December and January fill up faster, so message early if your date falls then.</p>
+      <ol class="steps">
+        <li><h3>Check your date</h3><p>Send us your event date, venue and rough guest count. We'll reply with availability and a quote.</p></li>
+        <li><h3>Approve your strip</h3><p>We design a strip around your event and send a preview. Changes are free until you're happy.</p></li>
+        <li><h3>We set up</h3><p>We arrive about an hour early to set up the booth, lights and printer, then run it for the whole session.</p></li>
+        <li><h3>Guests take it home</h3><p>Each group gets printed strips on the spot. You get every photo in an online gallery after the event.</p></li>
+      </ol>
+    </section>
+
+    <section id="packages">
+      <h2>Packages</h2>
+      <p class="lead">Every package includes a custom strip design, unlimited prints during the session, a props set and an attendant at the booth.</p>
+      <div class="packages">
+        <div class="pkg">
+          <h3>Intimate</h3>
+          <p class="note">ROM solemnisations and small gatherings</p>
+          <ul><li>2 hours of booth time</li><li>Unlimited 2x6 strips</li><li>Digital copies by QR code</li></ul>
+          <p class="rate">Ask for rates</p>
+          <a class="btn ghost" href="#enquire">Book a date</a>
+        </div>
+        <div class="pkg pick">
+          <h3>Celebration</h3>
+          <p class="note">Wedding dinners, 21sts and big parties</p>
+          <ul><li>3 hours of booth time</li><li>Unlimited 2x6 or 4x6 prints</li><li>Backdrop of your choice</li><li>Online gallery after the event</li></ul>
+          <p class="rate">Ask for rates</p>
+          <a class="btn" href="#enquire">Book a date</a>
+        </div>
+        <div class="pkg">
+          <h3>Corporate</h3>
+          <p class="note">D&amp;Ds, lo hei, launches and roadshows</p>
+          <ul><li>Booth time to fit your programme</li><li>Company logo and branding on every strip</li><li>Guest photo gallery for your team</li></ul>
+          <p class="rate">Custom quote</p>
+          <a class="btn ghost" href="#enquire">Request a quote</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>Questions people usually ask</h2>
+      <div class="faq">
+        <details><summary>How much space does the booth need?</summary><p>About 2.5m by 2.5m, near a power point. If your venue is tight, send us a photo of the spot and we'll tell you if it works.</p></details>
+        <details><summary>Can the strip match our wedding colours or company branding?</summary><p>Yes. Every strip is designed for your event. Send us your invitation, colour palette or logo and we'll build the design around it.</p></details>
+        <details><summary>Do guests get digital copies?</summary><p>Yes. Guests scan a QR code at the booth to download their photos, and you get the full set in an online gallery after the event.</p></details>
+        <details><summary>How far ahead should we book?</summary><p>Three to six weeks is usually enough. For December, January and the Chinese New Year period, book as early as you can.</p></details>
+        <details><summary>Do you charge extra for setup or transport?</summary><p>Setup, teardown and transport within Singapore are included. Venues with special loading rules may need extra time, which we'll mention in your quote.</p></details>
+      </div>
+    </section>
+
+    <section id="enquire">
+      <div class="enquire">
+        <div>
+          <h2>Check if your date is free</h2>
+          <p class="lead">Fill this in and it opens WhatsApp with your details already typed out, so all you need to do is press send.</p>
+          <ul class="contact-list">
+            <li>WhatsApp: <a href="https://wa.me/6597705066">+65 9770 5066</a></li>
+            <li>Email: <a href="mailto:estheticstudio.sg@gmail.com">estheticstudio.sg@gmail.com</a></li>
+            <li>Instagram: <a href="https://www.instagram.com/estheticstudio.sg/">@estheticstudio.sg</a></li>
+          </ul>
+        </div>
+        <form id="enq" novalidate>
+          <div class="field"><label for="name">Your name</label><input id="name" autocomplete="name"><span class="err" id="name-err"></span></div>
+          <div class="field"><label for="type">Type of event</label>
+            <select id="type"><option value="">Choose one</option><option>Wedding or ROM</option><option>Corporate event or D&amp;D</option><option>Birthday or private party</option><option>School event</option><option>Something else</option></select>
+            <span class="err" id="type-err"></span></div>
+          <div class="field"><label for="date">Event date</label><input id="date" type="date"><span class="err" id="date-err"></span></div>
+          <div class="field"><label for="guests">Rough guest count</label><input id="guests" type="number" min="1" inputmode="numeric"></div>
+          <div class="field full"><label for="venue">Venue</label><input id="venue" placeholder="e.g. Raffles Town Club, or not decided yet"></div>
+          <div class="field full"><label for="msg">Anything else</label><textarea id="msg" placeholder="Theme, colours, timing, questions"></textarea></div>
+          <button class="btn" type="submit">Send on WhatsApp</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Esthetic Studio, photobooth service in Singapore</span>
+    <span><a href="https://www.instagram.com/estheticstudio.sg/">Instagram</a> &nbsp; <a href="https://wa.me/6597705066">WhatsApp</a> &nbsp; <a href="mailto:estheticstudio.sg@gmail.com">Email</a></span>
+  </footer>
+</div>
+
+<script>
+const WHATSAPP_NUMBER = "6597705066";
+const form = document.getElementById("enq");
+const required = [["name","Enter your name"],["type","Choose the type of event"],["date","Pick your event date"]];
+function setErr(id,msg){
+  const el=document.getElementById(id), err=document.getElementById(id+"-err");
+  err.textContent=msg; el.classList.toggle("invalid",!!msg);
+  if(msg){el.setAttribute("aria-invalid","true");el.setAttribute("aria-describedby",id+"-err");}else{el.removeAttribute("aria-invalid");}
+}
+required.forEach(([id])=>document.getElementById(id).addEventListener("input",()=>setErr(id,"")));
+form.addEventListener("submit",e=>{
+  e.preventDefault();
+  let first=null;
+  required.forEach(([id,msg])=>{
+    if(!document.getElementById(id).value.trim()){setErr(id,msg); if(!first) first=id;}
+    else setErr(id,"");
+  });
+  if(first){document.getElementById(first).focus();return;}
+  const v=id=>document.getElementById(id).value.trim();
+  const lines=[
+    "Hi, I'd like to check availability for a photobooth.",
+    "Name: "+v("name"),
+    "Event: "+v("type"),
+    "Date: "+v("date"),
+    v("guests")?"Guests: "+v("guests"):"",
+    v("venue")?"Venue: "+v("venue"):"",
+    v("msg")?"Notes: "+v("msg"):""
+  ].filter(Boolean).join("\n");
+  window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(lines),"_blank","noopener");
+});
+</script>
+</body>
+</html>
