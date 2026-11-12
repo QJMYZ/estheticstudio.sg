@@ -67,17 +67,23 @@ h2{font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.15;letter-spacing:-0.02em;
 .steps h3{font-size:19px;font-weight:700;margin:0 0 8px;letter-spacing:-0.01em}
 .steps p{margin:0;color:var(--muted);font-size:16px}
 
-.packages{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--white);border-radius:20px;overflow:hidden}
-.pkg{padding:36px 32px}
-.pkg + .pkg{border-left:1px solid var(--line)}
-.pkg.pick{background:var(--ink);color:var(--white)}
-.pkg.pick .note,.pkg.pick li{color:#D5DACF}
-.pkg h3{font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-0.01em}
-.pkg .note{color:var(--muted);font-size:15px;margin:0 0 20px}
-.pkg ul{margin:0 0 28px;padding-left:18px;color:var(--muted);font-size:16px}
-.pkg li{margin-bottom:6px}
-.pkg .rate{font-weight:700;font-size:18px;margin:0 0 20px}
-.pkg.pick .btn{background:var(--white);color:var(--ink)}
+.rates{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:stretch}
+.rate-card{background:var(--white);border-radius:20px;display:grid;grid-template-columns:1fr 1fr}
+.rate-part{padding:36px 32px;display:flex;flex-direction:column;justify-content:center}
+.rate-part + .rate-part{border-left:1px solid var(--line)}
+.rate-label{margin:0;font-weight:500;color:var(--muted)}
+.rate-price{margin:6px 0 4px;font-size:clamp(2.6rem,5vw,3.6rem);font-weight:500;letter-spacing:-0.03em;line-height:1}
+.rate-sub{margin:0;font-size:15px;color:var(--muted)}
+.calc{background:var(--ink);color:var(--white);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:12px}
+.calc label{color:#D5DACF}
+.calc select{background:#3A3F33;color:var(--white);border-color:transparent}
+.calc-total{margin:8px 0 12px;font-size:18px;color:#D5DACF}
+.calc-total b{color:var(--white);font-size:28px;font-weight:700;display:block}
+.calc .btn{background:var(--white);color:var(--ink);align-self:flex-start}
+.incl-h{font-size:19px;font-weight:700;margin:48px 0 16px}
+.incl{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px 32px;color:var(--muted)}
+.incl li{padding-left:22px;position:relative}
+.incl li::before{content:"";position:absolute;left:0;top:10px;width:10px;height:2px;background:var(--gold)}
 
 .faq{max-width:760px}
 details{border-bottom:1px solid var(--line);padding:20px 0}
@@ -108,12 +114,17 @@ footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);f
   .hero{grid-template-columns:1fr;padding-bottom:48px}
   .hero h1{margin-top:16px}
   .steps{grid-template-columns:1fr 1fr}
-  .packages{grid-template-columns:1fr}
-  .pkg + .pkg{border-left:0;border-top:1px solid var(--line)}
+  .rates{grid-template-columns:1fr}
+  .incl{grid-template-columns:1fr 1fr}
   .enquire{grid-template-columns:1fr}
   form{grid-template-columns:1fr}
 }
-@media (max-width:520px){.steps{grid-template-columns:1fr}}
+@media (max-width:520px){
+  .steps{grid-template-columns:1fr}
+  .rate-card{grid-template-columns:1fr}
+  .rate-part + .rate-part{border-left:0;border-top:1px solid var(--line)}
+  .incl{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -132,7 +143,7 @@ footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);f
     <nav>
       <a href="#strips">Strip designs</a>
       <a href="#how">How it works</a>
-      <a href="#packages">Packages</a>
+      <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a class="btn" href="#enquire" style="margin-left:24px;color:var(--white)">Book a date</a>
     </nav>
@@ -243,36 +254,42 @@ footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);f
         <li><h3>Check your date</h3><p>Send us your event date, venue and rough guest count. We'll reply with availability and a quote.</p></li>
         <li><h3>Approve your strip</h3><p>We design a strip around your event and send a preview. Changes are free until you're happy.</p></li>
         <li><h3>We set up</h3><p>We arrive about an hour early to set up the booth, lights and printer, then run it for the whole session.</p></li>
-        <li><h3>Guests take it home</h3><p>Each group gets printed strips on the spot. You get every photo in an online gallery after the event.</p></li>
+        <li><h3>Guests take it home</h3><p>Each group gets printed strips on the spot.</p></li>
       </ol>
     </section>
 
-    <section id="packages">
-      <h2>Packages</h2>
-      <p class="lead">Every package includes a custom strip design, unlimited prints during the session, a props set and an attendant at the booth.</p>
-      <div class="packages">
-        <div class="pkg">
-          <h3>Intimate</h3>
-          <p class="note">ROM solemnisations and small gatherings</p>
-          <ul><li>2 hours of booth time</li><li>Unlimited 2x6 strips</li><li>Digital copies by QR code</li></ul>
-          <p class="rate">Ask for rates</p>
-          <a class="btn ghost" href="#enquire">Book a date</a>
+    <section id="pricing">
+      <h2>Simple hourly pricing</h2>
+      <p class="lead">One rate covers your first hours, then every hour after that is a flat rate. Pick how long you need the booth and that's your price.</p>
+      <div class="rates" id="rates" data-min-hours="2" data-base-rate="350" data-extra-rate="120">
+        <div class="rate-card">
+          <div class="rate-part">
+            <p class="rate-label">First <span class="js-min">2</span> hours</p>
+            <p class="rate-price">S$<span class="js-base">350</span></p>
+            <p class="rate-sub">Minimum booking</p>
+          </div>
+          <div class="rate-part">
+            <p class="rate-label">Each additional hour</p>
+            <p class="rate-price">S$<span class="js-extra">120</span></p>
+            <p class="rate-sub">Add as many hours as you need</p>
+          </div>
         </div>
-        <div class="pkg pick">
-          <h3>Celebration</h3>
-          <p class="note">Wedding dinners, 21sts and big parties</p>
-          <ul><li>3 hours of booth time</li><li>Unlimited 2x6 or 4x6 prints</li><li>Backdrop of your choice</li><li>Online gallery after the event</li></ul>
-          <p class="rate">Ask for rates</p>
+        <div class="calc">
+          <label for="hours">How long do you need the booth?</label>
+          <select id="hours"></select>
+          <p class="calc-total" aria-live="polite">Your total: <b>S$<span id="total">350</span></b></p>
           <a class="btn" href="#enquire">Book a date</a>
         </div>
-        <div class="pkg">
-          <h3>Corporate</h3>
-          <p class="note">D&amp;Ds, lo hei, launches and roadshows</p>
-          <ul><li>Booth time to fit your programme</li><li>Company logo and branding on every strip</li><li>Guest photo gallery for your team</li></ul>
-          <p class="rate">Custom quote</p>
-          <a class="btn ghost" href="#enquire">Request a quote</a>
-        </div>
       </div>
+      <h3 class="incl-h">Every booking includes</h3>
+      <ul class="incl">
+        <li>A custom strip design for your event</li>
+        <li>Unlimited prints during your booth time</li>
+        <li>Props to match your theme</li>
+        <li>An attendant at the booth the whole time</li>
+        <li>Setup and teardown, not counted in your hours</li>
+        <li>Transport anywhere in Singapore</li>
+      </ul>
     </section>
 
     <section id="faq">
@@ -280,7 +297,7 @@ footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);f
       <div class="faq">
         <details><summary>How much space does the booth need?</summary><p>About 2.5m by 2.5m, near a power point. If your venue is tight, send us a photo of the spot and we'll tell you if it works.</p></details>
         <details><summary>Can the strip match our wedding colours or company branding?</summary><p>Yes. Every strip is designed for your event. Send us your invitation, colour palette or logo and we'll build the design around it.</p></details>
-        <details><summary>Do guests get digital copies?</summary><p>Yes. Guests scan a QR code at the booth to download their photos, and you get the full set in an online gallery after the event.</p></details>
+        <details><summary>Do guests get digital copies?</summary><p>Yes. Guests scan a QR code at the booth to download their photos onto their phones.</p></details>
         <details><summary>How far ahead should we book?</summary><p>Three to six weeks is usually enough. For December, January and the Chinese New Year period, book as early as you can.</p></details>
         <details><summary>Do you charge extra for setup or transport?</summary><p>Setup, teardown and transport within Singapore are included. Venues with special loading rules may need extra time, which we'll mention in your quote.</p></details>
       </div>
@@ -319,6 +336,18 @@ footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);f
 </div>
 
 <script>
+
+
+const rates=document.getElementById("rates");
+const MIN=+rates.dataset.minHours, BASE=+rates.dataset.baseRate, EXTRA=+rates.dataset.extraRate;
+document.querySelectorAll(".js-min").forEach(e=>e.textContent=MIN);
+document.querySelectorAll(".js-base").forEach(e=>e.textContent=BASE.toLocaleString("en-SG"));
+document.querySelectorAll(".js-extra").forEach(e=>e.textContent=EXTRA.toLocaleString("en-SG"));
+const hoursSel=document.getElementById("hours");
+for(let h=MIN;h<=MIN+6;h++){const o=document.createElement("option");o.value=h;o.textContent=h+" hours";hoursSel.appendChild(o);}
+function updateTotal(){const h=+hoursSel.value;document.getElementById("total").textContent=(BASE+(h-MIN)*EXTRA).toLocaleString("en-SG");}
+hoursSel.addEventListener("change",updateTotal);updateTotal();
+
 const WHATSAPP_NUMBER = "6597705066";
 const form = document.getElementById("enq");
 const required = [["name","Enter your name"],["type","Choose the type of event"],["date","Pick your event date"]];
