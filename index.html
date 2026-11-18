@@ -179,6 +179,33 @@ h2{max-width:24ch}
 .prints figure:nth-child(2){transform:rotate(1.5deg)}
 svg text{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 @media (max-width:700px){footer{padding-bottom:100px}}
+
+/* Our story */
+#story{border-top:0;clip-path:inset(0 -100vmax);background:var(--white);box-shadow:0 0 0 100vmax var(--white)}
+.story{display:grid;grid-template-columns:1.2fr 0.8fr;gap:64px;align-items:center}
+.story.no-photo{grid-template-columns:1fr}
+.story-text p{color:var(--muted);max-width:58ch;margin:0 0 18px;font-size:18px}
+.story-text .story-sign{margin-top:28px;font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;color:var(--ink)}
+.story-sign span{display:block;font-family:var(--font);font-size:14px;color:var(--gold);letter-spacing:.08em;margin-top:2px}
+.story-photo{margin:0}
+.story-photo img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px}
+
+/* Past events */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gallery figure{margin:0}
+.gallery button{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;border-radius:14px;overflow:hidden}
+.gallery img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .4s ease}
+.gallery button:hover img{transform:scale(1.03)}
+.gallery figcaption{font-size:15px;color:var(--muted);margin-top:10px}
+.lightbox{border:0;padding:0;background:transparent;max-width:92vw;max-height:92vh}
+.lightbox::backdrop{background:rgba(20,22,18,.86)}
+.lightbox img{display:block;max-width:92vw;max-height:84vh;border-radius:10px}
+.lightbox p{color:#E6EAE3;text-align:center;margin:12px 0 0;font-size:15px}
+.lightbox form{position:absolute;top:8px;right:8px}
+.lightbox .close{background:rgba(255,255,255,.92);border:0;border-radius:999px;width:40px;height:40px;font-size:22px;line-height:1;cursor:pointer}
+@media (max-width:860px){.story{grid-template-columns:1fr;gap:36px}.story-photo{max-width:420px}.gallery{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.gallery{gap:10px}}
+@media (prefers-reduced-motion:reduce){.gallery img{transition:none}}
 </style>
 </head>
 <body>
@@ -191,6 +218,8 @@ svg text{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
       <a href="#strips">Designs</a>
       <a href="#how">How it works</a>
       <a href="#included">What's included</a>
+      <a href="#story">Our story</a>
+      <a href="#events" id="nav-events">Past events</a>
       <a href="#faq">FAQ</a>
       <a class="btn" href="#enquire" style="margin-left:24px;color:var(--white)">Book a date</a>
     </nav>
@@ -279,6 +308,36 @@ svg text{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
       </div>
     </section>
 
+    <section id="story">
+      <div class="story" id="story-grid">
+        <div class="story-text">
+          <h2>How Esthetic Studio started</h2>
+          <!-- EDIT YOUR STORY BELOW. Keep each paragraph inside its own <p> ... </p> -->
+          <p>Before Esthetic Studio, I spent two years working at event photobooths around Singapore, at weddings, ROMs and company events. I set up the booths, ran them through the night and watched how guests lit up every time a strip came out of the printer.</p>
+          <p>What stayed with me most was seeing guests enjoy their photos, laughing over their strips, passing them around the table and tucking them carefully into their bags. Moments pass quickly, but I've always believed memories are best kept in photos you can hold and look back on years later. That's why I decided to start something of my own.</p>
+          <p>Esthetic Studio is built on premium quality prints and service you can count on. Every strip is designed for your event and printed sharp and vibrant on professional photo paper, and I run the booth myself on the day, so the care doesn't stop once you've booked.</p>
+          <p>When you book with us, you'll be talking to me from your first message to the last print.</p>
+          <!-- END OF STORY -->
+          <p class="story-sign">Qi Jun<span>FOUNDER, ESTHETIC STUDIO</span></p>
+        </div>
+        <figure class="story-photo" id="story-photo">
+          <!-- To add your photo: upload it to the "photos" folder and name it founder.jpg -->
+          <img src="photos/founder.jpg" alt="Qi Jun, founder of Esthetic Studio">
+        </figure>
+      </div>
+    </section>
+
+    <section id="events" hidden>
+      <h2>Past events</h2>
+      <p class="lead">A few moments from celebrations we've been part of.</p>
+      <div class="gallery" id="gallery"></div>
+      <dialog class="lightbox" id="lightbox">
+        <form method="dialog"><button class="close" aria-label="Close photo">&times;</button></form>
+        <img id="lightbox-img" alt="">
+        <p id="lightbox-cap"></p>
+      </dialog>
+    </section>
+
     <section id="faq">
       <h2>Questions people usually ask</h2>
       <div class="faq">
@@ -331,6 +390,66 @@ svg text{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 
 <a class="float-wa" href="https://wa.me/6597705066" target="_blank" rel="noopener">WhatsApp us</a>
 <script>
+// ===== PAST EVENTS GALLERY =====
+// Upload photos to the "photos" folder named event-1.jpg, event-2.jpg, event-3.jpg and so on.
+// They appear here automatically, in number order. The section stays hidden until the first photo is uploaded.
+// Optional: write a short caption for each photo below. Leave a number out if you don't want a caption.
+const EVENT_CAPTIONS = {
+  1: "",
+  2: "",
+  3: ""
+};
+const MAX_EVENT_PHOTOS = 24;
+
+function findPhoto(n){
+  const exts = ["jpg","jpeg","png","webp","JPG","JPEG","PNG"];
+  return new Promise(resolve=>{
+    let i=0;
+    const tryNext=()=>{
+      if(i>=exts.length) return resolve(null);
+      const src="photos/event-"+n+"."+exts[i++];
+      const img=new Image();
+      img.onload=()=>resolve(src);
+      img.onerror=tryNext;
+      img.src=src;
+    };
+    tryNext();
+  });
+}
+(async function buildGallery(){
+  const gallery=document.getElementById("gallery");
+  const box=document.getElementById("lightbox");
+  const boxImg=document.getElementById("lightbox-img");
+  const boxCap=document.getElementById("lightbox-cap");
+  let count=0;
+  for(let n=1;n<=MAX_EVENT_PHOTOS;n++){
+    const src=await findPhoto(n);
+    if(!src) break;
+    count++;
+    const cap=(EVENT_CAPTIONS[n]||"").trim();
+    const fig=document.createElement("figure");
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.setAttribute("aria-label","Open photo "+n+(cap?": "+cap:""));
+    const img=document.createElement("img");
+    img.src=src; img.loading="lazy"; img.alt=cap||("Esthetic Studio photobooth at a past event, photo "+n);
+    btn.appendChild(img); fig.appendChild(btn);
+    if(cap){const fc=document.createElement("figcaption");fc.textContent=cap;fig.appendChild(fc);}
+    btn.addEventListener("click",()=>{boxImg.src=src;boxImg.alt=img.alt;boxCap.textContent=cap;if(box.showModal)box.showModal();});
+    gallery.appendChild(fig);
+  }
+  if(count>0){document.getElementById("events").hidden=false;}
+  else{const nav=document.getElementById("nav-events");if(nav)nav.remove();}
+  box.addEventListener("click",e=>{if(e.target===box)box.close();});
+})();
+
+// Hide the founder photo spot until founder.jpg is uploaded
+(function(){
+  const img=document.querySelector("#story-photo img");
+  const hide=()=>{document.getElementById("story-photo").remove();document.getElementById("story-grid").classList.add("no-photo");};
+  if(img.complete && img.naturalWidth===0) hide(); else img.addEventListener("error",hide);
+})();
+
 
 
 
