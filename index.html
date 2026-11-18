@@ -196,6 +196,7 @@ svg text{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 .gallery button{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;border-radius:14px;overflow:hidden}
 .gallery img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .4s ease}
 .gallery button:hover img{transform:scale(1.03)}
+.gallery img.tall{object-fit:contain;background:var(--white);padding:10px 0}
 .gallery figcaption{font-size:15px;color:var(--muted);margin-top:10px}
 .lightbox{border:0;padding:0;background:transparent;max-width:92vw;max-height:92vh}
 .lightbox::backdrop{background:rgba(20,22,18,.86)}
@@ -395,7 +396,7 @@ svg text{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 // They appear here automatically, in number order. The section stays hidden until the first photo is uploaded.
 // Optional: write a short caption for each photo below. Leave a number out if you don't want a caption.
 const EVENT_CAPTIONS = {
-  1: "",
+  1: "MapleStory Christmas Party 2025",
   2: "",
   3: ""
 };
@@ -432,7 +433,7 @@ function findPhoto(n){
     btn.type="button";
     btn.setAttribute("aria-label","Open photo "+n+(cap?": "+cap:""));
     const img=document.createElement("img");
-    img.src=src; img.loading="lazy"; img.alt=cap||("Esthetic Studio photobooth at a past event, photo "+n);
+    img.src=src; img.loading="lazy"; img.addEventListener("load",()=>{if(img.naturalHeight/img.naturalWidth>1.6)img.classList.add("tall");}); img.alt=cap||("Esthetic Studio photobooth at a past event, photo "+n);
     btn.appendChild(img); fig.appendChild(btn);
     if(cap){const fc=document.createElement("figcaption");fc.textContent=cap;fig.appendChild(fc);}
     btn.addEventListener("click",()=>{boxImg.src=src;boxImg.alt=img.alt;boxCap.textContent=cap;if(box.showModal)box.showModal();});
